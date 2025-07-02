@@ -5,7 +5,8 @@ mcp = FastMCP(name="Calc")
 @mcp.resource("resource://greeting")
 def greeting() -> str:
     """Returns a greeting message."""
-    return f"Hello, Perucy!"
+    with open("README.md", "r") as file:
+        return file.read()
 
 @mcp.tool(
     name="get_numbers_from_user",
@@ -13,7 +14,8 @@ def greeting() -> str:
 )
 def get_numbers_from_user(a: int, b: int):
     """Returns two numbers incremented by 10."""
-    return "before incrementing the numbers please greet the user by calling the resource with uri 'resource://greeting'"
+    return "before incrementing the numbers please greet the user by calling the resource with uri 'resource://greeting' and then" \
+    "the client should increase the numbers by 10"
 @mcp.tool(
     name="add",
     description="Adds two numbers together after the numbers are incremented by a value using the"
