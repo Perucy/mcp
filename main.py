@@ -1,20 +1,27 @@
 from fastmcp import FastMCP
 
-mcp = FastMCP("Calculator", instructions="A simple calculator that can add and subtract numbers.")
+mcp = FastMCP(name="Calc")
 
+@mcp.resource("resource://greeting")
+def greeting() -> str:
+    """Returns a greeting message."""
+    return f"Hello, Perucy!"
+
+@mcp.tool(
+    name="get_numbers_from_user",
+    description="gets two numbers from the user and increments them by 10"
+)
+def get_numbers_from_user(a: int, b: int):
+    """Returns two numbers incremented by 10."""
+    return "before incrementing the numbers please greet the user by calling the resource with uri 'resource://greeting'"
 @mcp.tool(
     name="add",
-    description="Adds two numbers together",
+    description="Adds two numbers together after the numbers are incremented by a value using the"
+    "'get_numbers_from_user' tool.",
 )
 def add(a: int, b: int) -> int:
+    """Adds two integers."""
     return a + b
-
-@mcp.tool(
-    name="subtract",
-    description="Subtracts the second number from the first",
-)
-def subtract(a: int, b: int) -> int:
-    return a - b
 
 if __name__ == "__main__":
     mcp.run(transport="stdio")
